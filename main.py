@@ -1,3 +1,5 @@
-from opp115 import OPP115
+import opp115
 
-#data = OPP115().load()
+data = opp115.load()
+print(data.head())
+print(data.shape[0])

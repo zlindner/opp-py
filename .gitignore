@@ -2,3 +2,5 @@
 .vscode/
 opp-115/
 env/
+__pycache__
+opp115.csv
