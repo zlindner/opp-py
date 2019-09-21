@@ -2,16 +2,17 @@ import os
 import pandas as pd
 import numpy as np
 from glob import glob
+from ast import literal_eval
 
 def load():
     if not os.path.exists('./opp115.csv'):
-        print('generating dataset...')
-
         generate_dataset().to_csv('./opp115.csv', sep=',', index=False)
 
     return pd.read_csv('./opp115.csv', sep=',', header=0)
 
 def generate_dataset():
+    print('generating dataset...')
+
     p = load_policies()
     a = load_annotations()
 
@@ -54,3 +55,20 @@ def load_annotations():
     a.reset_index(inplace=True, drop=True)
 
     return a
+
+def attribute_counts(data):
+    attributes = data['attributes'].to_list()
+    counts = {}
+
+    for a in attributes:
+        d = literal_eval(a)
+
+        for k, v in d.items():
+            if not k in counts:
+                counts[k] = {}
+            elif not v['value'] in counts[k]:
+                counts[k][v['value']] = 1
+            else:
+                counts[k][v['value']] += 1
+
+    return counts
